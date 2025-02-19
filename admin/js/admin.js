@@ -401,7 +401,10 @@ function inicializarGraficos() {
     const ctxVendas = document.getElementById('vendasChart')?.getContext('2d');
     const ctxProdutos = document.getElementById('produtosChart')?.getContext('2d');
 
-    if (!ctxVendas || !ctxProdutos) return;
+    if (!ctxVendas || !ctxProdutos) {
+        console.error('Canvas dos gráficos não encontrados');
+        return;
+    }
 
     window.vendasChart = new Chart(ctxVendas, {
         type: 'line',
