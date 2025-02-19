@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Mila Doces</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/sync.js"></script>
+    <script src="../js/feedback.js"></script>
+    <script src="../js/loading.js"></script>
+    <script src="js/admin.js"></script>
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="admin-container">
+        <button class="menu-toggle admin-menu-toggle" onclick="toggleAdminMenu()">
+            <span>☰</span>
+        </button>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>✨ Mila Doces</h1>
+                <p>Painel Admin</p>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item active" data-page="dashboard">
+                    📊 Dashboard
+                </a>
+                <a href="#" class="menu-item" data-page="produtos">
+                    🧁 Produtos
+                </a>
+                <a href="#" class="menu-item" data-page="pedidos">
+                    📦 Pedidos
+                </a>
+                <a href="#" class="menu-item" data-page="estoque">
+                    📝 Estoque
+                </a>
+            </nav>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <button onclick="logout()" class="logout-btn">Sair</button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-actions">
+                    <button id="sync-btn" onclick="sincronizarDados()">
+                        🔄 Sincronizar
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- O conteúdo será carregado dinamicamente aqui -->
+            </div>
+        </main>
+    </div>
+    <script>
+        function toggleAdminMenu() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sidebar') && !e.target.closest('.admin-menu-toggle')) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

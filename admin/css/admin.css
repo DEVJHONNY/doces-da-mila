@@ -1,0 +1,463 @@
+:root {
+    --primary-color: #ff758c;
+    --secondary-color: #ffd3b6;
+    --bg-color: #f8f9fa;
+    --text-color: #333;
+    --sidebar-width: 250px;
+    --focus-color: #4a90e2;
+}
+
+.admin-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    background: white;
+    padding: 2rem;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    position: relative; /* Adicionar posição relativa */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex: 1; /* Fazer nav crescer */
+}
+
+.sidebar nav a {
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Conteúdo Principal */
+.content {
+    padding: 2rem;
+    flex: 1;
+    background: var(--bg-color);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Cards */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.card {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Previne overflow */
+}
+
+.card h3 {
+    font-size: 1rem;
+    margin: 0;
+    color: #666;
+}
+
+.card .valor {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+    white-space: nowrap; /* Evita quebra de linha */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona ... quando passar */
+}
+
+.card .comparacao {
+    font-size: 0.8rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Gráficos */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.chart-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 300px;
+}
+
+/* Formulário */
+.entrada-manual {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    max-width: 600px;
+    margin: 1rem auto;
+}
+
+/* Estilos para o formulário de venda manual */
+.entrada-manual {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.entrada-manual h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.entrada-manual .form-group {
+    margin-bottom: 1rem;
+}
+
+.entrada-manual label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.entrada-manual select,
+.entrada-manual input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.entrada-manual select:focus,
+.entrada-manual input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.entrada-manual input[readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.button-registrar {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.button-registrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.button-registrar:active {
+    transform: scale(0.98);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button[type="submit"]:hover {
+    background: darken(var(--primary-color), 10%);
+}
+
+/* Estilos para a página de Estoque */
+.estoque-grid {
+    display: grid;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.categoria-estoque {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.categoria-estoque h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.produtos-lista {
+    display: grid;
+    gap: 1rem;
+}
+
+.produto-estoque {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+}
+
+.produto-estoque.estoque-baixo {
+    background: #fff5f5;
+    border: 1px solid #ff758c;
+}
+
+.estoque-controles {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.estoque-controles button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.estoque-controles button:hover {
+    transform: scale(1.1);
+}
+
+.estoque-controles input {
+    width: 60px;
+    text-align: center;
+    padding: 0.3rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+/* Estilo atualizado do botão de logout */
+.logout-button {
+    width: calc(100% - 4rem); /* Largura total menos padding */
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin: 1rem auto;
+    position: sticky;
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.logout-button:hover {
+    background: #ff4d6d;
+    transform: translateY(-2px);
+}
+
+.logout-button:active {
+    transform: scale(0.98);
+}
+
+/* Estilos para gerenciamento de preços */
+.preco-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.preco-input {
+    width: 80px;
+    padding: 0.3rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: right;
+}
+
+.preco-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.preco-input:hover {
+    background-color: #f8f9fa;
+}
+
+.input-error {
+    border-color: #dc3545 !important;
+}
+
+.input-success {
+    border-color: #28a745 !important;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 1rem;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    .sidebar nav a {
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .entrada-manual {
+        margin: 1rem 0;
+    }
+}
+
+*:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.produto-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-adicionar {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+}

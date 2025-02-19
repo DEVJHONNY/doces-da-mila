@@ -1,0 +1,193 @@
+/* Estilos específicos para a página de produtos */
+.catalogo-header {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 3rem;
+    animation: fadeIn 0.5s ease;
+}
+
+.catalogo-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.catalogo-header p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.categoria-section {
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.categoria-section:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+    background: #eee;
+}
+
+.categoria-titulo {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.categoria-titulo h2 {
+    color: #ff758c;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 1200px;
+    animation: slideUp 0.5s ease;
+}
+
+.produto {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 450px;
+    opacity: 1; /* Sempre manter opaco */
+}
+
+/* Remover todas as transições e efeitos de opacity */
+.produto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    opacity: 1;
+}
+
+.produto h3 {
+    color: #333;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.2rem;
+    height: 2.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+
+.produto .descricao {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    height: 3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+
+.produto .preco {
+    color: #ff758c;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+/* Remover estilos de quantidade-controle e button-adicionar */
+.quantidade-controle,
+.button-adicionar {
+    /* Estes estilos agora vêm do shared.css */
+}
+
+/* Remover estilos que possam conflitar */
+.produto-acoes,
+.quantidade-controle,
+.button-adicionar {
+    /* Estes estilos agora vêm do shared.css */
+}
+
+.estoque-info {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.estoque-baixo {
+    color: #ff4d6d;
+    font-weight: bold;
+}
+
+/* Simplificar estado de esgotado */
+.produto[data-estoque="0"] {
+    position: relative;
+}
+
+.produto[data-estoque="0"]::after {
+    content: 'ESGOTADO';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    color: #ff4d6d;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Remover todos os outros estilos relacionados a esgotado */
+.produto.esgotado,
+.produto.esgotado::before,
+.produto.esgotado::after {
+    display: none;
+}
+
+.aviso-estoque {
+    color: #ff4444;
+    font-size: 0.85em;
+    margin-top: 0.5rem;
+    display: block;
+    text-align: center;
+}
+
+.produto:not(.esgotado) .button-adicionar,
+.produto:not(.esgotado) .quantidade-controle {
+    display: block !important;
+}
+
+/* Container principal */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}

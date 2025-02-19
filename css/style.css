@@ -1,0 +1,211 @@
+:root {
+    --primary-color: #ff758c;
+    --secondary-color: #ffd3b6;
+    --accent-color: #ffaaa5;
+    --background-color: #fff5f5;
+    --text-color: #4a4a4a;
+    --text-light: #666;
+    --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    --border-radius: 20px;
+}
+
+/* Reset e Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Global */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+header .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+header h1 {
+    color: white;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+header nav {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+header nav a:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+/* Botões Globais */
+.button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Cards Globais */
+.card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+/* Footer Global */
+footer {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+/* Utilitários */
+.text-center { text-align: center; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mb-3 { margin-bottom: 3rem; }
+
+/* Responsividade Global */
+@media (max-width: 768px) {
+    header nav {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Animações Globais */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Remover todos os estilos relacionados a controles de quantidade e botões de adicionar */
+.quantidade-controle,
+.quantidade-controles,
+.button-adicionar {
+    /* Estes estilos foram movidos para shared.css */
+}
+
+/* Estilos do Carrinho */
+.carrinho-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.carrinho-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.carrinho-items {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.carrinho-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrinho-total {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-finalizar {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.button-finalizar:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.carrinho-vazio {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Menu Toggle */
+.menu-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    header .container {
+        position: relative;
+        padding-top: 60px;
+    }
+}

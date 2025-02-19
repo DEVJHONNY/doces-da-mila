@@ -1,0 +1,94 @@
+.produto {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 300px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.produto h3 {
+    color: #333;
+    margin: 0;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.produto .descricao {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.produto .preco {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.produto-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.button-adicionar {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button-adicionar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 117, 140, 0.3);
+}
+
+.button-adicionar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.produto.esgotado {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.produto.esgotado::before {
+    content: 'ESGOTADO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .produto {
+        max-width: 100%;
+    }
+}

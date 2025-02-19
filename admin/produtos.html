@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Produtos - Mila Doces Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>✨ Mila Admin</h2>
+            </div>
+            <nav>
+                <a href="index.html">📊 Dashboard</a>
+                <a href="produtos.html" class="active">🛍️ Produtos</a>
+                <a href="estoque.html">📦 Estoque</a>
+                <a href="../index.html">🏪 Voltar para Loja</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="content">
+            <header>
+                <h1>Gerenciar Produtos</h1>
+                <button onclick="document.getElementById('modal-produto').style.display='block'" class="btn-adicionar">
+                    + Adicionar Produto
+                </button>
+            </header>
+
+            <div class="produtos-grid">
+                <!-- Produtos serão renderizados aqui -->
+            </div>
+
+            <!-- Modal de Produto -->
+            <div id="modal-produto" class="modal">
+                <div class="modal-content">
+                    <h2>Adicionar/Editar Produto</h2>
+                    <form id="form-produto">
+                        <input type="hidden" id="produto-id">
+                        
+                        <div class="form-group">
+                            <label for="nome">Nome do Produto</label>
+                            <input type="text" id="nome" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select id="categoria" required>
+                                <option value="trufas">Trufas</option>
+                                <option value="mousses">Mousses</option>
+                                <option value="empadas">Empadas</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preco">Preço (R$)</label>
+                            <input type="number" id="preco" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estoque">Estoque</label>
+                            <input type="number" id="estoque" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descricao">Descrição</label>
+                            <textarea id="descricao"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="status" value="ativo" checked>
+                                    Ativo
+                                </label>
+                                <label>
+                                    <input type="radio" name="status" value="inativo">
+                                    Inativo
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-salvar">Salvar</button>
+                            <button type="button" onclick="document.getElementById('modal-produto').style.display='none'" class="btn-cancelar">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/produtos.js"></script>
+    <script src="js/admin-produtos.js"></script>
+</body>
+</html>

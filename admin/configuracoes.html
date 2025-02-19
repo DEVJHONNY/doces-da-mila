@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Mila Doces Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar comum -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>✨ Mila Admin</h2>
+                <button onclick="logout()" class="logout-button">🚪 Sair</button>
+            </div>
+            <nav>
+                <a href="index.html">📊 Dashboard</a>
+                <a href="vendas.html">💰 Vendas</a>
+                <a href="estoque.html">📦 Estoque</a>
+                <a href="relatorios.html">📄 Relatórios</a>
+                <a href="configuracoes.html" class="active">⚙️ Configurações</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header>
+                <h1>Configurações</h1>
+            </header>
+
+            <div class="configuracoes-container">
+                <form id="config-form" class="config-form">
+                    <div class="config-section">
+                        <h3>Informações da Loja</h3>
+                        <div class="form-group">
+                            <label>Nome da Loja</label>
+                            <input type="text" id="nome-loja" value="Mila Doces">
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="tel" id="whatsapp" value="5571996457135">
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram</label>
+                            <input type="text" id="instagram" value="@miladoces">
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3>Configurações de PIX</h3>
+                        <div class="form-group">
+                            <label>Chave PIX</label>
+                            <input type="text" id="chave-pix">
+                        </div>
+                        <div class="form-group">
+                            <label>QR Code PIX</label>
+                            <input type="file" id="qr-code-pix" accept="image/*">
+                            <img id="qr-code-preview" src="" alt="QR Code atual">
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3>Alertas de Estoque</h3>
+                        <div class="form-group">
+                            <label>Alerta de estoque baixo - Trufas</label>
+                            <input type="number" id="alerta-trufas" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Alerta de estoque baixo - Brownies</label>
+                            <input type="number" id="alerta-brownies" value="3">
+                        </div>
+                        <div class="form-group">
+                            <label>Alerta de estoque baixo - Mousses</label>
+                            <input type="number" id="alerta-mousses" value="2">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="button-salvar">Salvar Alterações</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/configuracoes.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <!-- Meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mila Doces - Delícias Artesanais</title>
+
+        <!-- Fontes -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Estilos -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- CSS na ordem correta -->
+        <link rel="stylesheet" href="css/animations.css">
+        <link rel="stylesheet" href="css/shared.css"> <!-- Carregar por último para ter precedência -->
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/solid/cookie.svg">
+    </head>
+    <body>
+        <!-- Cabeçalho -->
+        <header>
+            <div class="container">
+                <h1>✨ Mila Doces ✨</h1>
+                <p class="tagline">Doces artesanais feitos com amor</p>
+                <nav>
+                    <a href="#home">Início</a>
+                    <a href="produtos.html">Cardápio Completo</a>
+                    <a href="checkout.html">Carrinho</a>
+                    <a href="./admin/login.html" class="admin-link">Área Administrativa</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main>
+            <!-- Seção Hero -->
+            <section id="hero" class="hero-section">
+                <div class="hero-content">
+                    <h1>✨ Doces Artesanais</h1>
+                    <p>Feitos com amor para adoçar seu dia</p>
+                    <div class="hero-badges">
+                        <span class="badge">🚚 Entrega em toda cidade</span>
+                        <span class="badge">⭐ Produtos Frescos</span>
+                        <span class="badge">💝 Perfeito para Presentes</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Recursos -->
+            <section id="features" class="features-section">
+                <div class="feature-card">
+                    <span class="feature-icon">🎁</span>
+                    <h3>Embalagem Especial</h3>
+                    <p>Todos os pedidos vão em embalagens delicadas e seguras</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⏰</span>
+                    <h3>Pedidos Antecipados</h3>
+                    <p>Faça seu pedido com até 24h de antecedência</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💖</span>
+                    <h3>Feito com Amor</h3>
+                    <p>Ingredientes selecionados e produção artesanal</p>
+                </div>
+            </section>
+
+            <!-- Seção de Destaques -->
+            <section id="destaques">
+                <h2>✨ Produtos em Destaque</h2>
+                <p class="subtitle">Nossas delícias mais pedidas</p>
+                <div class="produtos-grid">
+                    <!-- Os produtos serão renderizados via JavaScript -->
+                </div>
+                <div class="ver-mais">
+                    <a href="produtos.html" class="button-ver-mais">
+                        Ver Catálogo Completo 🧁
+                    </a>
+                </div>
+            </section>
+
+            <!-- Informações -->
+            <section id="info" class="info-section">
+                <div class="info-card">
+                    <h3>📅 Horário de Funcionamento</h3>
+                    <p>Segunda a Sábado: 9h às 18h</p>
+                    <p>Domingo: Fechado</p>
+                </div>
+                <div class="info-card">
+                    <h3>🚚 Área de Entrega</h3>
+                    <p>Entregamos em toda a cidade</p>
+                    <p>Taxa sob consulta</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Rodapé -->
+        <footer>
+            <p>&copy; 2025 Mila Doces. Todos os direitos reservados.</p>
+        </footer>
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="js/config.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/produtos.js"></script>
+        <script src="js/estoque.js"></script>
+        <script src="js/carrinho.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const containerDestaques = document.querySelector('#destaques .produtos-grid');
+            if (!containerDestaques) return;
+
+            // Pegar primeiro produto de cada categoria como destaque
+            const destaques = [];
+            ['trufas', 'mousses'].forEach(categoria => {
+                if (PRODUTOS[categoria] && PRODUTOS[categoria].items && PRODUTOS[categoria].items.length > 0) {
+                    const produto = PRODUTOS[categoria].items[0];
+                    if (produto && produto.preco > 0) { // Verificar se o preço é válido
+                        destaques.push(produto);
+                    }
+                }
+            });
+
+            containerDestaques.innerHTML = destaques.map(produto => `
+                <div class="produto" data-produto-id="${produto.id}">
+                    <img src="${produto.imagem}" alt="${produto.nome}">
+                    <div class="produto-info">
+                        <h3>${produto.nome}</h3>
+                        <p class="descricao">${produto.descricao}</p>
+                        <p class="preco">R$ ${Number(produto.preco).toFixed(2)}</p>
+                        <p class="estoque-info"></p>
+                    </div>
+                    <div class="produto-acoes">
+                        <div class="quantidade-controle">
+                            <button onclick="alterarQuantidade('${produto.id}', -1)">−</button>
+                            <input type="number" id="quantidade-${produto.id}" value="1" min="1" max="${produto.estoque}">
+                            <button onclick="alterarQuantidade('${produto.id}', 1)">+</button>
+                        </div>
+                        <button class="button-adicionar" onclick="adicionarAoCarrinho('${produto.id}', ${produto.preco}, 1)">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Atualizar visual dos produtos
+            atualizarVisualProdutos();
+        });
+        </script>
+    </body>
+</html>

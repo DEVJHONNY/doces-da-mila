@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <!-- Meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrinho - Mila Doces</title>
+
+        <!-- Fontes -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Estilos -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/checkout.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@5/minimal.css">
+        <link rel="stylesheet" href="css/responsive.css">
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
+        <!-- Cabeçalho -->
+        <header>
+            <div class="container">
+                <h1>✨ Mila Doces ✨</h1>
+                <p class="tagline">Doces artesanais feitos com amor</p>
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <span>☰</span>
+                </button>
+                <nav>
+                    <a href="index.html">Início</a>
+                    <a href="produtos.html">Cardápio Completo</a>
+                    <a href="checkout.html" class="active">Carrinho</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="container checkout-container">
+            <section id="checkout">
+                <div class="checkout-grid">
+                    <!-- Carrinho -->
+                    <div class="carrinho-section">
+                        <h2>🛍️ Seu Carrinho</h2>
+                        <div class="carrinho-lista">
+                            <ul id="lista-carrinho"></ul>
+                        </div>
+                        <div class="total-box">
+                            <h3>Total do Pedido:</h3>
+                            <p>R$ <span id="total-carrinho">0.00</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Formulário -->
+                    <div class="form-section">
+                        <form id="checkout-form">
+                            <h2>📝 Informações do Pedido</h2>
+                            
+                            <!-- Nome -->
+                            <div class="form-group">
+                                <label for="nome">Nome Completo*</label>
+                                <input type="text" id="nome" required placeholder="Seu nome completo">
+                            </div>
+
+                            <!-- WhatsApp -->
+                            <div class="form-group">
+                                <label for="telefone">WhatsApp</label>
+                                <input type="tel" id="telefone" placeholder="(71) 99999-9999">
+                                <small>Se informar seu WhatsApp, enviaremos o status do seu pedido</small>
+                            </div>
+
+                            <!-- Endereço -->
+                            <div class="form-group">
+                                <label for="endereco">Endereço de Entrega*</label>
+                                <input type="text" id="endereco" required placeholder="Rua, número, complemento">
+                            </div>
+
+                            <!-- Observações -->
+                            <div class="form-group">
+                                <label for="observacoes">Observações</label>
+                                <textarea id="observacoes" placeholder="Alguma observação especial para seu pedido? Ex: Sem cobertura, Entregar em horário específico, etc"></textarea>
+                            </div>
+
+                            <!-- Pagamento -->
+                            <div class="pagamento-section">
+                                <h3>💳 Forma de Pagamento</h3>
+                                <div class="pagamento-opcoes">
+                                    <label class="pagamento-opcao">
+                                        <input type="radio" name="metodo-pagamento" value="pix" onclick="mostrarOpcoesPix()">
+                                        <span class="checkmark">💠 PIX</span>
+                                    </label>
+                                    <label class="pagamento-opcao">
+                                        <input type="radio" name="metodo-pagamento" value="dinheiro" onclick="ocultarOpcoesPix()">
+                                        <span class="checkmark">💵 Dinheiro na Entrega</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- QR Code -->
+                            <div id="qr-code" class="qr-code-container" style="display: none;"></div>
+
+                            <!-- Container para opções PIX -->
+                            <div id="pix-options" class="pix-options" style="display: none;">
+                                <div class="pix-method-select">
+                                    <button type="button" onclick="mostrarQRCode()">
+                                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/icons/qr-code.svg" alt="QR Code">
+                                        QR Code PIX
+                                    </button>
+                                    <button type="button" onclick="mostrarChavePix()">
+                                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/icons/cash.svg" alt="Chave PIX">
+                                        Copiar Chave PIX
+                                    </button>
+                                </div>
+                                <div id="pix-display"></div>
+                                <div class="pix-info">
+                                    <p><strong>Banco:</strong> <span id="pix-banco"></span></p>
+                                    <p><strong>Nome:</strong> <span id="pix-nome"></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Botão Finalizar -->
+                            <button type="button" class="button-finalizar" onclick="finalizarCompra()">
+                                Finalizar Pedido ✨
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="container">
+                <p>✨ Mila Doces - Feito com amor 🧁</p>
+            </div>
+        </footer>
+
+        <!-- Scripts na ordem correta -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="js/config.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/produtos.js"></script>
+        <script src="js/estoque.js"></script>
+        <script src="js/carrinho.js"></script>
+        <script src="js/checkout.js"></script>
+
+        <script>
+            function mostrarQRCode() {
+                const qrCodeContainer = document.getElementById('qr-code');
+                if (qrCodeContainer) {
+                    qrCodeContainer.style.display = 'block';
+                    qrCodeContainer.innerHTML = `
+                        <div class="qr-code-wrapper">
+                            <h3>📱 Pagamento via PIX</h3>
+                            <p>Escaneie o QR Code abaixo:</p>
+                            <img src="${CONFIG.pagamento.pix.qrCodeUrl}" alt="QR Code para pagamento via Pix">
+                            <p class="info">Após o pagamento, envie o comprovante pelo WhatsApp</p>
+                        </div>
+                    `;
+                }
+            }
+
+            function esconderQRCode() {
+                const qrCodeContainer = document.getElementById('qr-code');
+                if (qrCodeContainer) {
+                    qrCodeContainer.style.display = 'none';
+                }
+            }
+
+            function mostrarOpcoesPix() {
+                const pixOptions = document.getElementById('pix-options');
+                if (pixOptions) {
+                    pixOptions.style.display = 'block';
+                }
+            }
+
+            function ocultarOpcoesPix() {
+                const pixOptions = document.getElementById('pix-options');
+                if (pixOptions) {
+                    pixOptions.style.display = 'none';
+                }
+                esconderQRCode();
+            }
+
+            function mostrarChavePix() {
+                const pixDisplay = document.getElementById('pix-display');
+                if (pixDisplay) {
+                    pixDisplay.innerHTML = `
+                        <div class="pix-key-wrapper">
+                            <h3>🔑 Chave PIX</h3>
+                            <p>${CONFIG.pagamento.pix.chave}</p>
+                            <button type="button" onclick="copiarChavePix()">Copiar Chave</button>
+                        </div>
+                    `;
+                }
+            }
+
+            function copiarChavePix() {
+                const chavePix = CONFIG.pagamento.pix.chave;
+                navigator.clipboard.writeText(chavePix).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Chave PIX copiada!',
+                        text: 'A chave PIX foi copiada para a área de transferência.'
+                    });
+                }).catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao copiar',
+                        text: 'Não foi possível copiar a chave PIX.'
+                    });
+                });
+            }
+        </script>
+        <script>
+            // Verificar se CONFIG foi carregado corretamente
+            document.addEventListener('DOMContentLoaded', () => {
+                if (!window.CONFIG) {
+                    console.error('CONFIG não está disponível');
+                    return;
+                }
+                // Inicializar elementos do PIX
+                const metodoPix = document.querySelector('input[value="pix"]');
+                if (metodoPix) {
+                    metodoPix.addEventListener('change', () => {
+                        if (metodoPix.checked) {
+                            mostrarOpcoesPix();
+                        }
+                    });
+                }
+
+                // Preencher informações do PIX
+                document.getElementById('pix-banco').textContent = CONFIG.pagamento.pix.banco;
+                document.getElementById('pix-nome').textContent = CONFIG.pagamento.pix.nome;
+
+                // Inicializar carrinho
+                atualizarCarrinho();
+            });
+
+            function toggleMenu() {
+                document.querySelector('nav').classList.toggle('active');
+            }
+
+            // Fechar menu ao clicar fora
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('nav') && !e.target.closest('.menu-toggle')) {
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        </script>
+    </body>
+</html>

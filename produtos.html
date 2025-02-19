@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cardápio - Mila Doces</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/animations.css">
+        <link rel="stylesheet" href="css/shared.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        <!-- Carregar scripts na ordem correta -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="js/config.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/produtos.js"></script>
+        <script src="js/carrinho.js"></script>
+        <script src="js/sync.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1>✨ Mila Doces ✨</h1>
+                <p class="tagline">Doces artesanais feitos com amor</p>
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <span>☰</span>
+                </button>
+                <nav>
+                    <a href="index.html">Início</a>
+                    <a href="produtos.html" class="active">Cardápio Completo</a>
+                    <a href="checkout.html">Carrinho</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="catalogo-header">
+                <h2>🧁 Nosso Cardápio Completo</h2>
+                <p>Escolha suas delícias favoritas</p>
+            </div>
+
+            <div id="produtos-container">
+                <!-- Seção Trufas -->
+                <section class="categoria-section">
+                    <div class="categoria-titulo">
+                        <h2>Trufas</h2>
+                    </div>
+                    <div class="produtos-grid" id="trufas-grid">
+                        <!-- Produtos serão carregados aqui -->
+                    </div>
+                </section>
+
+                <!-- Seção Mousses -->
+                <section class="categoria-section">
+                    <div class="categoria-titulo">
+                        <h2>Mousses</h2>
+                    </div>
+                    <div class="produtos-grid" id="mousses-grid">
+                        <!-- Produtos serão carregados aqui -->
+                    </div>
+                </section>
+
+                <!-- Seção Empadas -->
+                <section class="categoria-section">
+                    <div class="categoria-titulo">
+                        <h2>Empadas</h2>
+                    </div>
+                    <div class="produtos-grid" id="empadas-grid">
+                        <!-- Produtos serão carregados aqui -->
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Mila Doces. Todos os direitos reservados.</p>
+        </footer>
+
+        <script src="js/estoque.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const CATEGORIAS = ['trufas', 'mousses', 'empadas'];
+                
+                CATEGORIAS.forEach(categoria => {
+                    const grid = document.getElementById(`${categoria}-grid`);
+                    const produtos = PRODUTOS[categoria]?.items || [];
+                    
+                    if (grid) {
+                        grid.innerHTML = produtos.map(produto => `
+                            <div class="produto" data-produto-id="${produto.id}">
+                                <img src="${produto.imagem || 'img/produtos/produto-padrao.jpg'}" alt="${produto.nome}">
+                                <h3>${produto.nome}</h3>
+                                <p class="descricao">${produto.descricao}</p>
+                                <p class="preco">R$ ${produto.preco?.toFixed(2) || '0.00'}</p>
+                                <p class="estoque-info">${produto.estoque} unidades disponíveis</p>
+                                <div class="quantidade-controle">
+                                    <button onclick="window.alterarQuantidade('${produto.id}', -1)">-</button>
+                                    <input type="number" id="quantidade-${produto.id}" value="1" min="1" max="${produto.estoque || 0}">
+                                    <button onclick="window.alterarQuantidade('${produto.id}', 1)">+</button>
+                                </div>
+                                <button class="button-adicionar" onclick="adicionarAoCarrinhoComFeedback('${produto.id}')" ${produto.estoque <= 0 ? 'disabled' : ''}>
+                                    ${produto.estoque > 0 ? 'Adicionar ao Carrinho' : 'Produto Esgotado'}
+                                </button>
+                            </div>
+                        `).join('') || '<p class="sem-produtos">Produtos em breve...</p>';
+                    }
+                });
+
+                // Inicializar handlers após carregar produtos
+                if (typeof window.atualizarVisualProdutos === 'function') {
+                    window.atualizarVisualProdutos();
+                }
+            });
+        </script>
+
+        <script>
+            // Atualizar página quando produtos forem alterados
+            window.addEventListener('produtosAlterados', () => {
+                const container = document.getElementById('produtos-container');
+                if (container) {
+                    // Recarregar produtos
+                    const CATEGORIAS = ['trufas', 'mousses', 'empadas'];
+                    CATEGORIAS.forEach(categoria => {
+                        const grid = document.getElementById(`${categoria}-grid`);
+                        const produtos = PRODUTOS[categoria]?.items || [];
+                        
+                        if (grid) {
+                            grid.innerHTML = produtos.map(produto => `
+                                <div class="produto" data-produto-id="${produto.id}">
+                                    <img src="${produto.imagem || 'img/produtos/produto-padrao.jpg'}" alt="${produto.nome}">
+                                    <h3>${produto.nome}</h3>
+                                    <p class="descricao">${produto.descricao}</p>
+                                    <p class="preco">R$ ${produto.preco?.toFixed(2) || '0.00'}</p>
+                                    <p class="estoque-info"></p>
+                                    <div class="quantidade-controle">
+                                        <button onclick="alterarQuantidade('${produto.id}', -1)">-</button>
+                                        <input type="number" id="quantidade-${produto.id}" value="1" min="1" max="${produto.estoque || 0}">
+                                        <button onclick="alterarQuantidade('${produto.id}', 1)">+</button>
+                                    </div>
+                                    <button class="button-adicionar" onclick="adicionarAoCarrinho('${produto.id}')">
+                                        Adicionar ao Carrinho
+                                    </button>
+                                </div>
+                            `).join('') || '<p class="sem-produtos">Produtos em breve...</p>';
+                        }
+                    });
+
+                    // Atualizar visual do estoque
+                    atualizarVisualProdutos();
+                }
+            });
+
+            function toggleMenu() {
+                document.querySelector('nav').classList.toggle('active');
+            }
+
+            // Fechar menu ao clicar fora
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('nav') && !e.target.closest('.menu-toggle')) {
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        </script>
+
+        <style>
+            .produto.esgotado {
+                opacity: 0.7;
+            }
+
+            .produto-imagem {
+                position: relative;
+                width: 100%;
+            }
+
+            .esgotado-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-15deg);
+                background: rgba(255, 0, 0, 0.8);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-size: 1.2em;
+                pointer-events: none;
+            }
+
+            button[disabled] {
+                background-color: #ccc !important;
+                cursor: not-allowed;
+            }
+
+            .estoque-baixo {
+                color: #ff4444;
+                animation: pulse 2s infinite;
+            }
+        </style>
+    </body>
+</html>

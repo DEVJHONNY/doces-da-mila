@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas - Mila Doces Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar comum -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>✨ Mila Admin</h2>
+                <button onclick="logout()" class="logout-button">🚪 Sair</button>
+            </div>
+            <nav>
+                <a href="index.html">📊 Dashboard</a>
+                <a href="vendas.html" class="active">💰 Vendas</a>
+                <a href="estoque.html">📦 Estoque</a>
+                <a href="relatorios.html">📄 Relatórios</a>
+                <a href="configuracoes.html">⚙️ Configurações</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header>
+                <h1>Gestão de Vendas</h1>
+                <div class="filtros">
+                    <input type="date" id="data-inicio">
+                    <input type="date" id="data-fim">
+                    <button onclick="filtrarVendas()">Filtrar</button>
+                </div>
+            </header>
+
+            <div class="vendas-lista">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Produtos</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-vendas">
+                        <!-- Preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/produtos.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/vendas.js"></script>
+</body>
+</html>

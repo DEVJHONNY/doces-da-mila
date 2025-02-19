@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Estoque - Mila Doces Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>✨ Mila Admin</h2>
+            </div>
+            <nav>
+                <a href="index.html">📊 Dashboard</a>
+                <a href="produtos.html">🛍️ Produtos</a>
+                <a href="estoque.html" class="active">📦 Estoque</a>
+                <a href="../index.html">🏪 Voltar para Loja</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="content">
+            <header>
+                <h1>Gerenciar Estoque</h1>
+            </header>
+
+            <div class="estoque-grid">
+                <!-- Conteúdo será renderizado via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="js/admin-estoque.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarEstoque();
+        });
+    </script>
+</body>
+</html>
