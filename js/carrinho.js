@@ -30,53 +30,49 @@ function adicionarAoCarrinho(produtoId) {
         const quantidadeInput = document.getElementById(`quantidade-${produtoId}`);
         const quantidade = parseInt(quantidadeInput?.value || 1);
         
-        // Calcular quantidade total (carrinho + nova adição)
+        // Verificar quantidade atual no carrinho
         const quantidadeNoCarrinho = window.carrinho.reduce((total, item) => 
             item.id === produtoId ? total + item.quantidade : total, 0);
         
-        const quantidadeTotal = quantidadeNoCarrinho + quantidade;
-        
         // Verificar se excede o estoque
-        if (quantidadeTotal > produto.estoque) {
-            throw new Error(`Apenas ${produto.estoque} unidade(s) disponível(is). Você já tem ${quantidadeNoCarrinho} no carrinho.`);
+        if (quantidadeNoCarrinho + quantidade > produto.estoque) {
+            throw new Error(`Apenas ${produto.estoque} unidade(s) disponível(is)`);
         }
 
-        // Adicionar ao carrinho
-        const item = {
+        // Adicionar como um único item com a quantidade correta
+        window.carrinho.push({
             id: produtoId,
             nome: produto.nome,
-            preco: Number(produto.preco),
-            quantidade: quantidade
-        };
-
-        window.carrinho.push(item);
-        localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
-
-        // Mostrar mensagem de sucesso
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            title: 'Produto adicionado!',
-            html: `${quantidade}x ${produto.nome}<br><br>⚠️ A disponibilidade só será garantida após a finalização da compra.`,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true
+            preco: produto.preco,
+            quantidade: quantidade // Usar a quantidade selecionada
         });
+
+        localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
 
         // Atualizar interface
         atualizarCarrinho();
 
+        // Feedback
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            title: 'Produto adicionado!',
+            text: `${quantidade}x ${produto.nome}`,
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+
     } catch (error) {
-        console.error('Erro ao adicionar ao carrinho:', error);
+        console.error('Erro:', error);
         Swal.fire({
             toast: true,
             position: 'top-end',
             title: 'Erro',
             text: error.message,
             icon: 'error',
-            showConfirmButton: false,
-            timer: 3000
+            timer: 2000,
+            showConfirmButton: false
         });
     }
 }
@@ -228,12 +224,12 @@ function atualizarCarrinho() {
                 id: item.id,
                 nome: produto.nome, // Usar nome do produto encontrado
                 preco: produto.preco, // Usar preço do produto encontrado
-                quantidade: 1
+                quantidade: item.quantidade || 1
             };
         } else {
-            itensAgrupados[item.id].quantidade++;
+            itensAgrupados[item.id].quantidade += (item.quantidade || 1);
         }
-        total += Number(produto.preco);
+        total += produto.preco * (item.quantidade || 1);
     });
 
     // Renderizar itens válidos
@@ -262,57 +258,47 @@ function alterarQuantidadeCarrinho(produtoId, delta) {
         const produto = encontrarProdutoPorId(produtoId);
         if (!produto) return;
 
-        const quantidadeAtual = window.carrinho.filter(item => item.id === produtoId).length;
+        // Encontrar item no carrinho
+        const itemIndex = window.carrinho.findIndex(item => item.id === produtoId);
+        if (itemIndex === -1) return;
 
-        if (delta > 0) {
-            // Verificar estoque antes de adicionar
-            if (quantidadeAtual >= produto.estoque) {
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'Limite de estoque',
-                    text: `Apenas ${produto.estoque} unidades disponíveis`,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                return;
-            }
+        const item = window.carrinho[itemIndex];
+        const novaQuantidade = (item.quantidade || 1) + delta;
 
-            // Adicionar item
-            window.carrinho.push({
-                id: produtoId,
-                nome: produto.nome,
-                preco: produto.preco,
-                quantidade: 1
+        if (novaQuantidade <= 0) {
+            // Confirmar remoção
+            Swal.fire({
+                title: 'Remover produto?',
+                text: `Deseja remover ${produto.nome} do carrinho?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.carrinho = window.carrinho.filter(i => i.id !== produtoId);
+                    atualizarCarrinhoCompleto(produtoId);
+                }
             });
-        } else if (delta < 0 && quantidadeAtual > 0) {
-            // Confirmar remoção do último item
-            if (quantidadeAtual === 1) {
-                Swal.fire({
-                    title: 'Remover produto?',
-                    text: `Deseja remover ${produto.nome} do carrinho?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sim',
-                    cancelButtonText: 'Não'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.carrinho = window.carrinho.filter(item => item.id !== produtoId);
-                        atualizarCarrinhoCompleto(produtoId);
-                    }
-                });
-                return;
-            }
-
-            // Remover um item
-            const index = window.carrinho.findIndex(item => item.id === produtoId);
-            if (index !== -1) {
-                window.carrinho.splice(index, 1);
-            }
+            return;
         }
 
-        // Atualizar localStorage e interface
+        // Verificar estoque
+        if (novaQuantidade > produto.estoque) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'warning',
+                title: 'Limite de estoque',
+                text: `Apenas ${produto.estoque} unidades disponíveis`,
+                timer: 2000,
+                showConfirmButton: false
+            });
+            return;
+        }
+
+        // Atualizar quantidade
+        item.quantidade = novaQuantidade;
         localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
         atualizarCarrinho();
 
