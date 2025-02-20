@@ -258,14 +258,24 @@ function atualizarCarrinho() {
 function alterarQuantidadeCarrinho(produtoId, delta) {
     try {
         const produto = encontrarProdutoPorId(produtoId);
-        if (!produto) return;
+        if (!produto) {
+            throw new Error('Produto não encontrado');
+        }
 
         // Encontrar item no carrinho
-        const itemIndex = window.carrinho.findIndex(item => item.id === produtoId);
-        if (itemIndex === -1) return;
+        const itensAgrupados = {};
+        window.carrinho.forEach(item => {
+            if (!itensAgrupados[item.id]) {
+                itensAgrupados[item.id] = {
+                    ...item,
+                    quantidade: 0
+                };
+            }
+            itensAgrupados[item.id].quantidade++;
+        });
 
-        const item = window.carrinho[itemIndex];
-        const novaQuantidade = (item.quantidade || 1) + delta;
+        const itemAtual = itensAgrupados[produtoId];
+        const novaQuantidade = (itemAtual?.quantidade || 0) + delta;
 
         if (novaQuantidade <= 0) {
             // Confirmar remoção
@@ -278,34 +288,47 @@ function alterarQuantidadeCarrinho(produtoId, delta) {
                 cancelButtonText: 'Não'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.carrinho = window.carrinho.filter(i => i.id !== produtoId);
-                    atualizarCarrinhoCompleto(produtoId);
+                    window.carrinho = window.carrinho.filter(item => item.id !== produtoId);
+                    localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
+                    atualizarCarrinho();
+                    atualizarDisplayEstoque(produtoId);
                 }
             });
             return;
         }
 
-        // Verificar estoque
-        if (novaQuantidade > produto.estoque) {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'warning',
-                title: 'Limite de estoque',
-                text: `Apenas ${produto.estoque} unidades disponíveis`,
-                timer: 2000,
-                showConfirmButton: false
-            });
-            return;
+        // Verificar estoque apenas ao aumentar
+        if (delta > 0 && novaQuantidade > produto.estoque) {
+            throw new Error(`Apenas ${produto.estoque} unidade(s) disponível(is)`);
         }
 
-        // Atualizar quantidade
-        item.quantidade = novaQuantidade;
+        // Atualizar carrinho
+        if (delta > 0) {
+            window.carrinho.push({
+                id: produtoId,
+                nome: produto.nome,
+                preco: produto.preco,
+                quantidade: 1
+            });
+        } else {
+            const index = window.carrinho.findIndex(item => item.id === produtoId);
+            if (index !== -1) {
+                window.carrinho.splice(index, 1);
+            }
+        }
+
         localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
         atualizarCarrinho();
 
     } catch (error) {
-        console.error('Erro ao alterar quantidade:', error);
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: error.message,
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
 }
 
