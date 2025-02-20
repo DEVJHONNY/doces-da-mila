@@ -39,28 +39,30 @@ function adicionarAoCarrinho(produtoId) {
             throw new Error(`Apenas ${produto.estoque} unidade(s) disponível(is)`);
         }
 
-        // Adicionar como um único item com a quantidade correta
+        // Adicionar ao carrinho
         window.carrinho.push({
             id: produtoId,
             nome: produto.nome,
             preco: produto.preco,
-            quantidade: quantidade // Usar a quantidade selecionada
+            quantidade: quantidade
         });
 
         localStorage.setItem('carrinho', JSON.stringify(window.carrinho));
 
         // Atualizar interface
         atualizarCarrinho();
+        atualizarDisplayEstoque(produtoId);
 
-        // Feedback
+        // Mostrar mensagem de sucesso unificada
         Swal.fire({
             toast: true,
             position: 'top-end',
-            title: 'Produto adicionado!',
-            text: `${quantidade}x ${produto.nome}`,
+            title: `Produto adicionado ao carrinho!`,
+            html: `${quantidade}x ${produto.nome}<br><br>⚠️ A disponibilidade só será garantida após a finalização da compra. O carrinho não reserva os produtos.`,
             icon: 'success',
-            timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
         });
 
     } catch (error) {
